@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: hellonode
-        image: macksarc2/hellonode:1.0.0
+        image: macksarc/hellonode:1.0.0
         ports:
         - containerPort: 3000
