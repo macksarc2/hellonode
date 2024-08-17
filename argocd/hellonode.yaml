@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/macksarc/hellonode.git
+    repoURL: https://github.com/macksarc2/hellonode.git
     targetRevision: "1.0.0"
     path: helm-charts/hellonode
     helm:
