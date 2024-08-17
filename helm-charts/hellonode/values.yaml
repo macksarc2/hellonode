@@ -117,8 +117,8 @@ nginxIngress:
       tag: v1.11.1
       pullPolicy: IfNotPresent
     service:
-      type: nodePort
-      nodePort: 30080
+      type: NodePort  # Change to NodePort
+      nodePort: 30080 # Specify the NodePort here
       port: 3000
       targetPort: 3000
     ingressClassName: nginx
