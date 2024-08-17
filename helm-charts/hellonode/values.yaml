@@ -47,15 +47,17 @@ service:
 
 ingress:
   enabled: true
-  className: ""
-  annotations: {}
+  className: "traefik"
+  annotations:
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+    traefik.ingress.kubernetes.io/router.tls: "false"
   hosts:
     - host: minikube.local # remember to update /etc/hosts
       paths:
         - path: /
-          pathType: ImplementationSpecific
+          pathType: Prefix
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
@@ -107,17 +109,3 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
-
-nginxIngress:
-  controller:
-    replicaCount: 1
-    image:
-      repository: ingress-nginx/controller
-      tag: v1.11.1
-      pullPolicy: IfNotPresent
-    service:
-      type: NodePort
-      nodePort: 30080 # Specify the NodePort here
-      port: 3000
-      targetPort: 3000
-    ingressClassName: nginx
