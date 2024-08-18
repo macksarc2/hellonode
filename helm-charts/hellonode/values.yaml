@@ -46,7 +46,7 @@ service:
   targetPort: 3000
   nodePort: 30080
 
-# ingress:
+ingress: {} #:
 #   enabled: true
 #   className: "traefik"
 #   annotations:
