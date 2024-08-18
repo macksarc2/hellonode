@@ -178,7 +178,7 @@ gatewayClass:
 ingressRoute:
   dashboard:
     # -- Create an IngressRoute for the dashboard
-    enabled: true
+    enabled: false
     # -- Additional ingressRoute annotations (e.g. for kubernetes.io/ingress.class)
     annotations: {}
     # -- Additional ingressRoute labels (e.g. for filtering IngressRoute by custom labels)
@@ -758,8 +758,7 @@ service:
   ## -- When set to false, it will create two Service, one for TCP and one for UDP.
   single: true
   type: NodePort
-  nodePorts:
-    http: 30080
+  nodePort: 30080
   # -- Additional annotations applied to both TCP and UDP services (e.g. for cloud provider specific config)
   annotations: {}
   # -- Additional annotations for TCP service only
