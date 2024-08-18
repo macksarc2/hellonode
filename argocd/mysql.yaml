@@ -9,7 +9,7 @@ spec:
     server: https://kubernetes.default.svc
     namespace: default
   source:
-    path: mysql/mysql.yaml
+    path: mysql/
     repoURL: https://github.com/macksarc2/hellonode.git
     targetRevision: HEAD
   syncPolicy:
