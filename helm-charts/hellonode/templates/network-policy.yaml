@@ -14,16 +14,16 @@ spec:
     - from:
         - podSelector:
             matchLabels:
-              role: frontend
+              role: frontend  # Allow access from frontend pods
     - from:
         - namespaceSelector:
             matchLabels:
-              name: {{.Values.namespace}}
+              name: {{ .Values.namespace }}
   egress:
     - to:
         - podSelector:
             matchLabels:
-              app: mysql
-        ports:
-          - protocol: TCP
-            port: 3306
+              app: mysql  # Ensure this matches the MySQL backend pod label
+      ports:
+        - protocol: TCP
+          port: 3306  # MySQL port for egress access
