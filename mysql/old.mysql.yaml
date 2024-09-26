@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mysql
+  name: mysqlset
 spec:
   selector:
     matchLabels:
       app: mysql
-  serviceName: mysql-svc
+  serviceName: mysqlsvc
   replicas: 1
   template:
     metadata:
@@ -23,39 +23,16 @@ spec:
         - containerPort: 3306
           name: mysql
         volumeMounts:
-        - name: my-vol
+        - name: mysql-storage
           mountPath: /var/lib/mysql
   volumeClaimTemplates:
   - metadata:
-      name: my-vol
+      name: mysql-storage
     spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
-          storage: 1Gi
-      storageClassName: standard
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: standard
-spec:
-  capacity:
-    storage: 2Gi
-  accessModes:
-    - ReadWriteOnce
-  storageClassName: standard
-  local:
-    path: /tmp/minik
-  nodeAffinity:
-    required:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: kubernetes.io/hostname
-          operator: In
-          values:
-          - minikube
-
+          storage: 3Gi
 ---
 apiVersion: v1
 kind: Service
@@ -66,7 +43,42 @@ spec:
     app: mysql
   ports:
   - port: 3306
-    targetPort: 3306
-    nodePort: 30006
+  clusterIP: None # headless for SS
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv
+spec:
+  capacity:
+    storage: 3Gi
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: manual
+  hostPath:
+    path: /tmp/minik
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pvc
+spec:
+  resources:
+    requests:
+      storage: 3Gi
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: manual
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-node
+spec:
+  selector:
+    app: mysql
   type: NodePort
-
+  ports:
+  - port: 3306
+    targetPort: 3306
+    nodePort: 30306

@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prometheus
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/macksarc2/hellonode.git
+    targetRevision: "HEAD"
+    path: helm-charts/kube-prometheus-stack
+    helm:
+      valueFiles:
+        - values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: prometheus
+  syncPolicy:
+    automated:
+      prune: true  # Enable resource pruning
+      selfHeal: true  # Automatically sync out-of-sync resources
+    syncOptions:
+      - CreateNamespace=true  # Automatically create the target namespace if it doesn't exist
