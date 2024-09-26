@@ -18,7 +18,7 @@ spec:
     - from:
         - namespaceSelector:
             matchLabels:
-              name: allowed-namespace
+              name: {{.Values.namespace}}
   egress:
     - to:
         - podSelector:
